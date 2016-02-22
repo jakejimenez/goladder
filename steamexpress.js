@@ -7,9 +7,9 @@ var sortedObject = require('sorted-object');
 
 var _exit = process.exit;
 var eol = os.EOL;
-var pkg = require('../package.json');
+// var pkg = require('../package.json');
 
-var version = pkg.version;
+var version = 1.0;
 
 // Re-assign process.exit because of commander
 // TODO: Switch to a different command framework
