@@ -5,4 +5,4 @@
 1. Finish support page with Discord widget.
 2. Add any sponsors for the sponsors page and add a form to become a sponsor or email.
 3. Request Match page with form, possibly make username in form autofill with steam name?
-4. Use API to grab CS:GO stats for their profile page.
+4. Use Steam API to grab CS:GO stats for their profile page.
