@@ -224,20 +224,20 @@ app.get("/support", function (req, res) {
         });    
     }
 });
-app.get("/sponser", function (req, res) {
+app.get("/sponsor", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
     if(!(session == '')){
         getUserName(session, function(){
             console.log(name)
-            res.render('sponser', {
-                title: 'Sponser',
+            res.render('sponsor', {
+                title: 'Sponsor',
                 session: session,
                 username: name
             });
         });
     }else{
-        res.render('sponser', {
-            title: 'Sponser',
+        res.render('sponsor', {
+            title: 'Sponsor',
             session: session
         });    
     }
