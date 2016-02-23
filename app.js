@@ -18,7 +18,7 @@ var session = require('express-session')({
     }
 });
 
-var mysql = require('mysql');
+// var mysql = require('mysql');
 
 // var mysqlInfo;
 
@@ -50,6 +50,8 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 var server = http.Server(app);
+
+var name = '';
 
 server.listen(port);
 server.on('error', onError);
@@ -118,12 +120,14 @@ function createRelyingParty(req) {
     return new openid.RelyingParty(baseUrl + "/verify", baseUrl, true, false, []);
 }
 
-function getUserName(steamid) {
+function getUserName(steamid, callback) {
     var temp = '';
     getUserInfo(steamid, function(error, data){
         if(error) throw error;
         var datadec = JSON.parse(JSON.stringify(data.response));
         name = datadec.players[0].personaname;
+        console.log(name)
+        callback();
     });
 }
 function getUserInfo(steamid,callback) {
@@ -134,6 +138,7 @@ function getUserInfo(steamid,callback) {
         json: true
     }, function(error, response, body){
         if(!error && response.statusCode === 200){
+            console.log(response)
             callback(null, body);
         } else if (error) {
             getUserInfo(steamid,callback);
@@ -146,100 +151,279 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.get("/", function (req, res) {
+    var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('index', {
+                title: 'Index',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('index', {
+            title: 'Index',
+            session: session
+        });    
+    }
+});
 
 app.get("/home", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('home', {
-        title: 'Home',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('home', {
+                title: 'Home',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('home', {
+            title: 'Home',
+            session: session
+        });    
+    }
 });
 app.get("/rules", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('rules', {
-        title: 'rules',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('rules', {
+                title: 'Rules',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('rules', {
+            title: 'Rules',
+            session: session
+        });    
+    }
 });
 app.get("/support", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('support', {
-        title: 'support',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('support', {
+                title: 'Support',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('support', {
+            title: 'Support',
+            session: session
+        });    
+    }
 });
 app.get("/sponser", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('sponser', {
-        title: 'sponser',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('sponser', {
+                title: 'Sponser',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('sponser', {
+            title: 'Sponser',
+            session: session
+        });    
+    }
 });
 app.get("/volunteer", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('volunteer', {
-        title: 'volunteer',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('volunteer', {
+                title: 'Volunteer',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('volunteer', {
+            title: 'Volunteer',
+            session: session
+        });    
+    }
 });
 app.get("/teamdb", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('teamdb', {
-        title: 'teamdb',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('teamdb', {
+                title: 'Team Database',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('teamdb', {
+            title: 'Team Database',
+            session: session
+        });    
+    }
 });
 app.get("/myteam", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('myteam', {
-        title: 'myteam',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('myteam', {
+                title: 'My Team',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('myteam', {
+            title: 'My Team',
+            session: session
+        });    
+    }
 });
 app.get("/findteam", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('findteam', {
-        title: 'findteam',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('findteam', {
+                title: 'Find Team',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('findteam', {
+            title: 'Find Team',
+            session: session
+        });    
+    }
 });
 app.get("/mymatches", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('mymatches', {
-        title: 'mymatches',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('mymatches', {
+                title: 'My Matches',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('mymatches', {
+            title: 'My Matches',
+            session: session
+        });    
+    }
 });
 app.get("/requestmatch", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('requestmatch', {
-        title: 'requestmatch',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('requestmatch', {
+                title: 'Request Match',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('requestmatch', {
+            title: 'Request Match',
+            session: session
+        });    
+    }
 });
 app.get("/schedule", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('schedule', {
-        title: 'schedule',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('schedule', {
+                title: 'Schedule',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('Schedule', {
+            title: 'Schedule',
+            session: session
+        });    
+    }
 });
 app.get("/submitmatchresult", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('submitmatchresult', {
-        title: 'submitmatchresult',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('submitmatchresult', {
+                title: 'Submit Match Result',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('submitmatchresult', {
+            title: 'Submit Match Result',
+            session: session
+        });    
+    }
 });
 
 app.get("/editupcomingmatch", function (req, res) {
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    res.render('editupcomingmatch', {
-        title: 'editupcomingmatch',
-        session: session
-    });
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('editupcomingmatch', {
+                title: 'Edit Upcoming Match',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('editupcomingmatch', {
+            title: 'Edit Upcoming Match',
+            session: session
+        });    
+    }
 });
 
+app.get("/myprofile", function (req, res) {
+    var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
+    if(!(session == '')){
+        getUserName(session, function(){
+            console.log(name)
+            res.render('myprofile', {
+                title: 'My Profile',
+                session: session,
+                username: name
+            });
+        });
+    }else{
+        res.render('myprofile', {
+            title: 'My Profile',
+            session: session
+        });    
+    }
+});
 
 app.get("/login", function (req, res) {
     createRelyingParty(req).authenticate("http://steamcommunity.com/openid", false, function (e, authUrl) {
@@ -254,26 +438,25 @@ app.get("/verify", function (req, res) {
     createRelyingParty(req).verifyAssertion(req, function (e, result) {
 
         if (!result.authenticated) {
-            return res.redirect("/");
+            return res.redirect("/home");
         }
 
         var IDENTIFIER_REGEX = /^https?:\/\/steamcommunity\.com\/openid\/id\/([0-9]+)$/;
         var matches = IDENTIFIER_REGEX.exec(result.claimedIdentifier);
 
         if (matches === null) {
-            return res.redirect("/");
+            return res.redirect("/home");
         }
 
         req.session.user = matches[1]; // steam64
-        return res.redirect("/");
+        return res.redirect("/home");
     });
 
 });
 
 app.get("/logout", function (req, res) {
-    tradebot.userinv = '';
     req.session.destroy(function (err) {
-        res.redirect("/");
+        res.redirect("/home");
     });
 });
 

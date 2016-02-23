@@ -21,64 +21,113 @@ html
     script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
   body.hold-transition.skin-purple.sidebar-mini(style="background-color:#2C3B41;")
       //************ S T A R T  O F  N A V ***************//
-      aside.main-sidebar
-        section.sidebar
-        .user-panel
-            .pull-left.image
-                img.img-circle(src='http://www.allthatsepic.com/wp-content/uploads/2013/09/Gabe-Newell-160x160.jpg', alt='User Image')
-            .pull-left.info
-                p Gabe Newell
-                a(href='#')
-                    i.fa.fa-circle.text-success
-                    |  Online
-          ul.sidebar-menu
-            li.header.sidebar-header(style="font-size: 20px; color:white;") Menu
-            li
-              a(href='/home')
-                span Home
-            li
-              a(href='/rules')
-                span Rules
-            li
-              a(href='/support')
-                span Support
-            li
-              a(href='/sponser')
-                span Sponser
-            li
-              a(href='/volunteer')
-                span Volunteer
-            li.header.sidebar-header(style="font-size: 20px; color:white;") Teams
-            li
-              a(href='/teamdb')
-                span Team Database
-            li
-              a(href='/myteam')
-                span My Team
-            li
-              a(href='/findteam')
-                span Find a Team
-            li.header.sidebar-header(style="font-size: 20px; color:white;") Matches
-            li
-              a(href='/mymatches')
-                span My Matches
-            li
-              a(href='/requestmatch')
-                span Request Match
-            li
-              a(href='/schedule')
-                span Match Schedule
-            li
-              a(href='/submitmatchresult')
-                span Submit Match Result
-            li
-              a(href='/editupcomingmatch')
-                span Edit Upcoming Match
+      if session == ''
+            aside.main-sidebar
+              section.sidebar
+                .user-panel.sidebar-header-top
+                    a(href="/home")
+                      img(src='./images/Reddit_Ladder_League01.png' class="brand-logo")
+                  ul.sidebar-menu
+                    li.header.sidebar-header(style="font-size: 20px; color:white;") Menu
+                    li
+                      a(href='/home')
+                        span Home
+                    li
+                      a(href='/rules')
+                        span Rules
+                    li
+                      a(href='/support')
+                        span Support
+                    li
+                      a(href='/sponser')
+                        span Sponser
+                    li
+                      a(href='/volunteer')
+                        span Volunteer
+                    li.header.sidebar-header(style="font-size: 20px; color:white;") Teams
+                    li
+                      a(href='/teamdb')
+                        span Team Database
+                    li
+                      a(href='/findteam')
+                        span Find a Team
+                    li.header.sidebar-header(style="font-size: 20px; color:white;") Matches
+                    li
+                      a(href='/schedule')
+                        span Match Schedule
+                    li.header.sidebar-header(style="font-size: 20px; color:white;") Account
+                    li
+                      .pull-left.image
+                        a(href='/login')
+                            img(src='./images/steam_login.png' class="login-button")
+      else                
+        aside.main-sidebar
+          section.sidebar
+            .user-panel
+                a(href="/home")
+                      img(src='./images/Reddit_Ladder_League01.png' class="brand-logo")
+                .pull-left.image
+                    img.img-circle(src='http://www.allthatsepic.com/wp-content/uploads/2013/09/Gabe-Newell-160x160.jpg', alt='User Image')
+                .pull-left.info 
+                    p #{username}
+                    a(href='#')
+                        i.fa.fa-circle.text-success(style="color: #00E676;")
+                        |  Online
+              ul.sidebar-menu
+                li.header.sidebar-header(style="font-size: 20px; color:white;") Menu
+                li
+                  a(href='/home')
+                    span Home
+                li
+                  a(href='/rules')
+                    span Rules
+                li
+                  a(href='/support')
+                    span Support
+                li
+                  a(href='/sponser')
+                    span Sponser
+                li
+                  a(href='/volunteer')
+                    span Volunteer
+                li.header.sidebar-header(style="font-size: 20px; color:white;") Teams
+                li
+                  a(href='/teamdb')
+                    span Team Database
+                li
+                  a(href='/myteam')
+                    span My Team
+                li
+                  a(href='/findteam')
+                    span Find a Team
+                li.header.sidebar-header(style="font-size: 20px; color:white;") Matches
+                li
+                  a(href='/mymatches')
+                    span My Matches
+                li
+                  a(href='/requestmatch')
+                    span Request Match
+                li
+                  a(href='/schedule')
+                    span Match Schedule
+                li
+                  a(href='/submitmatchresult')
+                    span Submit Match Result
+                li
+                  a(href='/editupcomingmatch')
+                    span Edit Upcoming Match
+                li.header.sidebar-header(style="font-size: 20px; color:white;") Account
+                li
+                  a(href='/myprofile')
+                    span My Profile
+                li
+                  .pull-left.image
+                    a(href='/logout')
+                      img(src="./images/steam_logout.png" class="login-button")   
       //************ E N D  O F  N A V ***************//
       .content-wrapper
         section.content-header
-           p WHERE ALL BODY GOES
-           p Current Page: #{title}
+          .container
 
     script(src='plugins/jQuery/jQuery-2.1.4.min.js')
     script(src='https://code.jquery.com/ui/1.11.4/jquery-ui.min.js')

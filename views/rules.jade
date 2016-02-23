@@ -21,65 +21,180 @@ html
     script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
   body.hold-transition.skin-purple.sidebar-mini(style="background-color:#2C3B41;")
       //************ S T A R T  O F  N A V ***************//
-      aside.main-sidebar
-        section.sidebar
-        .user-panel
-            .pull-left.image
-                img.img-circle(src='http://www.allthatsepic.com/wp-content/uploads/2013/09/Gabe-Newell-160x160.jpg', alt='User Image')
-            .pull-left.info
-                p Gabe Newell
-                a(href='#')
-                    i.fa.fa-circle.text-success
-                    |  Online
-          ul.sidebar-menu
-            li.header.sidebar-header(style="font-size: 20px; color:white;") Menu
-            li
-              a(href='/home')
-                span Home
-            li
-              a(href='/rules')
-                span Rules
-            li
-              a(href='/support')
-                span Support
-            li
-              a(href='/sponser')
-                span Sponser
-            li
-              a(href='/volunteer')
-                span Volunteer
-            li.header.sidebar-header(style="font-size: 20px; color:white;") Teams
-            li
-              a(href='/teamdb')
-                span Team Database
-            li
-              a(href='/myteam')
-                span My Team
-            li
-              a(href='/findteam')
-                span Find a Team
-            li.header.sidebar-header(style="font-size: 20px; color:white;") Matches
-            li
-              a(href='/mymatches')
-                span My Matches
-            li
-              a(href='/requestmatch')
-                span Request Match
-            li
-              a(href='/schedule')
-                span Match Schedule
-            li
-              a(href='/submitmatchresult')
-                span Submit Match Result
-            li
-              a(href='/editupcomingmatch')
-                span Edit Upcoming Match
+      if session == ''
+            aside.main-sidebar
+              section.sidebar
+                .user-panel.sidebar-header-top
+                    a(href="/home")
+                      img(src='./images/Reddit_Ladder_League01.png' class="brand-logo")
+                  ul.sidebar-menu
+                    li.header.sidebar-header(style="font-size: 20px; color:white;") Menu
+                    li
+                      a(href='/home')
+                        span Home
+                    li
+                      a(href='/rules')
+                        span Rules
+                    li
+                      a(href='/support')
+                        span Support
+                    li
+                      a(href='/sponser')
+                        span Sponser
+                    li
+                      a(href='/volunteer')
+                        span Volunteer
+                    li.header.sidebar-header(style="font-size: 20px; color:white;") Teams
+                    li
+                      a(href='/teamdb')
+                        span Team Database
+                    li
+                      a(href='/findteam')
+                        span Find a Team
+                    li.header.sidebar-header(style="font-size: 20px; color:white;") Matches
+                    li
+                      a(href='/schedule')
+                        span Match Schedule
+                    li.header.sidebar-header(style="font-size: 20px; color:white;") Account
+                    li
+                      .pull-left.image
+                        a(href='/login')
+                            img(src='./images/steam_login.png' class="login-button")
+      else                
+        aside.main-sidebar
+          section.sidebar
+            .user-panel
+                a(href="/home")
+                      img(src='./images/Reddit_Ladder_League01.png' class="brand-logo")
+                .pull-left.image
+                    img.img-circle(src='http://www.allthatsepic.com/wp-content/uploads/2013/09/Gabe-Newell-160x160.jpg', alt='User Image')
+                .pull-left.info 
+                    p #{username}
+                    a(href='#')
+                        i.fa.fa-circle.text-success(style="color: #00E676;")
+                        |  Online
+              ul.sidebar-menu
+                li.header.sidebar-header(style="font-size: 20px; color:white;") Menu
+                li
+                  a(href='/home')
+                    span Home
+                li
+                  a(href='/rules')
+                    span Rules
+                li
+                  a(href='/support')
+                    span Support
+                li
+                  a(href='/sponser')
+                    span Sponser
+                li
+                  a(href='/volunteer')
+                    span Volunteer
+                li.header.sidebar-header(style="font-size: 20px; color:white;") Teams
+                li
+                  a(href='/teamdb')
+                    span Team Database
+                li
+                  a(href='/myteam')
+                    span My Team
+                li
+                  a(href='/findteam')
+                    span Find a Team
+                li.header.sidebar-header(style="font-size: 20px; color:white;") Matches
+                li
+                  a(href='/mymatches')
+                    span My Matches
+                li
+                  a(href='/requestmatch')
+                    span Request Match
+                li
+                  a(href='/schedule')
+                    span Match Schedule
+                li
+                  a(href='/submitmatchresult')
+                    span Submit Match Result
+                li
+                  a(href='/editupcomingmatch')
+                    span Edit Upcoming Match
+                li.header.sidebar-header(style="font-size: 20px; color:white;") Account
+                li
+                  a(href='/myprofile')
+                    span My Profile
+                li
+                  .pull-left.image
+                    a(href='/logout')
+                      img(src="./images/steam_logout.png" class="login-button")   
       //************ E N D  O F  N A V ***************//
       .content-wrapper
         section.content-header
-           p WHERE ALL BODY GOES
-           p Current Page: #{title}
-
+          .container
+           h1 Rules
+           small Current page: #{title}
+           hr
+           p By competing in these online ladders you agree to follow the rules below. Failure too follow them can and will result in expulsion from the ladder. It is recommended that players keep record of all exchanges with other teams.
+           hr
+           ol
+            li Anti-competitive behavior is not allowed, forms of this include
+              ol
+                li Cheating in any form.
+                li Agreeing on the result of a match or "throwing".
+                li Intentionally misinforming other teams of rules.
+                li Preventing other teams from attending matches or failing to attend matches.
+                li Falsely claiming technical issues in order to gain advantage.
+            li Minor offenses will result in teams being given strikes, three strikes will result in expulsion from the cup
+            li A match is defined as:
+              ol
+                li The winner of two out of 3 games.
+                  ol
+                    li A game is defined as the first team to 16 rounds with overtime if needed.
+            li A match must be played within the time specified by the Reddit Ladder League management.
+              ol
+                li Failure to do this will result in both teams being credited with a los and a strike.
+                  ol
+                    li Excepting cases where clear blame can be assigned based on evidence.
+            li A team must play within the division equivalent to the region they live in.
+            li Roster changes must be submitted on the page of the site labeled "Players portal" with proof that a majority of the teams players agree to it.
+              ol
+                li Stand ins or "ringers" are allowed provided the other team is provided notice and agrees to play the match.
+                  ol
+                    li Should a date be set for the match it cannot be changed without both teams approval. 
+                li Should a team have two or fewer players available to play a match it will be counted as a forfit win provided the other team does not agree to reschedule.
+                  ol
+                    li A team has up to twenty minates after the scheduled time to show up, and five minutes in between maps
+                    li A team is allowed one tactical time out per half, refer to rule 1.5 for further clarification 
+            li Each match must have either an un-edited POV video of the match hosted on a file hosting site, or a GOTV demo submitted alongside the result to the "players portal" webpage.
+              ol
+                li Should a result be submitted without a POV video or GOTV demo it will not be counted as a result and the match will have to be replayed.
+                li Any evidence submitted to authenticate a matches result will be available to the public
+            li Should administrative error result in a match not being playable both teams will be credited with a win.
+            li Scoring shall be 3 points for a win and 0 for a loss.
+            li The away team will be randomly chosen from one of the two teams ahead of the home team in the rankings. 
+              ol
+                li Each home team will be given a match every Monday for the duration of the tournament and will have to complete it during the next week.
+                li The first place team will not have any home matches.
+                li The team in first place at the end of the allotted time(one month) will be declared the winner
+            li Maps shall be chosen with admin supervision, please contact an admin prior to choosing maps, after you have agreed on a time.
+              ol
+                li Maps shall be chosen from Valve's Active Duty Map pool
+                li The maps shall be chosen by a veto consisting of, in order:
+                  ol
+                    li Teams each veto a map
+                    li Teams each Pick a map
+                    li Map is randomly chosen from remaining maps
+            li The following are considered unfair behavior and will result in a map loss and a strike.
+              ol
+                li Planting a bomb in an unreachable.
+                li "Boosts" that involve three players.
+                li Glitches that allow you see the other team through smoke or otherwise when you shouldn't.
+                li "Pixel walking"
+                li Planting a bomb in an unreachable.
+                li "Boosts" that involve three players.
+                li Glitches that allow you see the other team through smoke or otherwise when you shouldn't.
+                li "Pixel walking"
+                li Planting a bomb in an unreachable.
+                li "Boosts" that involve three players.
+                li Glitches that allow you see the other team through smoke or otherwise when you shouldn't.
+                li "Pixel walking"
     script(src='plugins/jQuery/jQuery-2.1.4.min.js')
     script(src='https://code.jquery.com/ui/1.11.4/jquery-ui.min.js')
     script.
