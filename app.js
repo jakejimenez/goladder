@@ -18,27 +18,27 @@ var session = require('express-session')({
     }
 });
 
-var mysql = require('mysql');
+// var mysql = require('mysql');
 
-var mysqlInfo;
+// var mysqlInfo;
 
-mysqlInfo = {
-  host: '127.0.0.1',
-  port: '3306',
-  user: 'root',
-  database: 'goladderdb'
-};
+// mysqlInfo = {
+//   host: '127.0.0.1',
+//   port: '3306',
+//   user: 'root',
+//   database: 'goladderdb'
+// };
 
-var connection = mysql.createConnection(mysqlInfo);
+// var connection = mysql.createConnection(mysqlInfo);
 
-connection.connect(function(err){
-    if (err){ 
-        throw err;
-    }
-    else{
-       console.log('Connected to ' + mysqlInfo.database + ' in app');
-    }
-});
+// connection.connect(function(err){
+//     if (err){ 
+//         throw err;
+//     }
+//     else{
+//        console.log('Connected to ' + mysqlInfo.database + ' in app');
+//     }
+// });
 
 var parseString = require('xml2js').parseString;
 
@@ -54,6 +54,9 @@ var server = http.Server(app);
 var picture = 'http://www.sessionlogs.com/media/icons/defaultIcon.png'
 var name = '';
 var loggedIn = false;
+
+// STAT VARS FOR PLAYER //
+var kills = 0;
 
 server.listen(port);
 server.on('error', onError);
@@ -103,7 +106,7 @@ function onListening() {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -156,11 +159,66 @@ function getUserInfo(steamid,callback) {
     });
 }
 
+function getStatsForSteamId(steamid, callback) {
+    var apik = 'B26B620482C987680D005B925374ED9E';
+    var url = 'https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=' + apik + '&steamid=' + steamid;
+    request({
+        url: url,
+        json: true
+    }, function(error, response, body){
+        if (!error && response.statusCode === 200) {
+            callback(null, body);
+        } else if (error) {
+            getStatsForSteamId(steamid, callback);
+        }   
+    });
+}
+
+function getImportantStats(steamid, callback){
+    getStatsForSteamId(steamid, function(error, data){
+        if(error) throw error;
+        var datadec = JSON.parse(JSON.stringify(data.playerstats));
+        stats = {
+            "kills": datadec.stats[0].value,
+            "deaths": datadec.stats[1].value,
+            "in-game-hours": (datadec.stats[2].value / 60) / 60,
+            "headshot-kills": datadec.stats[24].value,
+            "total-wins": datadec.stats[5].value,
+            "total-damage": datadec.stats[6].value
+        }
+        callback();
+    });
+}
+
+
+
 app.use(function (req, res, next) {
     res.locals.user = req.session.user;
     next();
 });
 
+function renderStats(req, res, page, title){
+    var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
+    if(loggedIn){
+        getImportantStats(session, function(){
+            setTimeout(function () {
+                console.log(stats)
+                res.render(page, {
+                    title: title,
+                    session: session,
+                    username: name,
+                    stats: stats,
+                    picture: picture
+                }); 
+            }, 150);
+        });
+    }else{
+        res.render(page, {
+            title: title,
+            session: session
+        });
+    }
+}
 
 function renderDefault(req, res, page, title){
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
@@ -186,40 +244,51 @@ function renderDefault(req, res, page, title){
 app.get("/", function (req, res) {
     renderDefault(req, res, 'index', '/');
 });
+
 app.get("/home", function (req, res) {
     renderDefault(req, res, 'home', 'Home');
-
 });
+
 app.get("/rules", function (req, res) {
     renderDefault(req, res, 'rules', 'rules');
 });
+
 app.get("/support", function (req, res) {
     renderDefault(req, res, 'support', 'support');
 });
+
 app.get("/sponsor", function (req, res) {
     renderDefault(req, res, 'sponsor', 'sponsor');
 });
+
 app.get("/volunteer", function (req, res) {
     renderDefault(req, res, 'volunteer', 'volunteer');
 });
+
 app.get("/teamdb", function (req, res) {
     renderDefault(req, res, 'teamdb', 'teamdb');
 });
+
 app.get("/myteam", function (req, res) {
     renderDefault(req, res, 'myteam', 'myteam');
 });
+
 app.get("/findteam", function (req, res) {
     renderDefault(req, res, 'findteam', 'findteam');
 });
+
 app.get("/mymatches", function (req, res) {
     renderDefault(req, res, 'mymatches', 'mymatches');
 });
+
 app.get("/requestmatch", function (req, res) {
     renderDefault(req, res, 'requestmatch', 'requestmatch');
 });
+
 app.get("/schedule", function (req, res) {
     renderDefault(req, res, 'schedule', 'schedule');
 });
+
 app.get("/submitmatchresult", function (req, res) {
     renderDefault(req, res, 'submitmatchresult', 'submitmatchresult');
 });
@@ -228,8 +297,8 @@ app.get("/editupcomingmatch", function (req, res) {
     renderDefault(req, res, 'editupcomingmatch', 'editupcomingmatch');
 });
 
-app.get("/myprofile", function (req, res) {
-    renderDefault(req, res, 'myprofile', 'myprofile');
+app.get("/myprofile", function (req, res) { 
+    renderStats(req, res, "myprofile", "My Profile");
 });
 
 app.get("/login", function (req, res) {

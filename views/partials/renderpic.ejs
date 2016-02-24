@@ -1,0 +1,15 @@
+<% if(session == ''){ %>
+  <script>
+    $(function(){
+      var session = <%-JSON.stringify(session)%>
+    });
+  </script>
+<% }else{ %>
+  <script>
+    $(function(){
+      var session = <%-JSON.stringify(session)%>
+      var picture = <%-JSON.stringify(picture)%>
+      $(".user-picture").append('<img src="' + picture + '" href="/myprofile" class="img-circle"/>');
+    });
+  </script>
+<% }%>

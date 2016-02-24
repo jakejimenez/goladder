@@ -1,0 +1,6 @@
+Open a cmd in this directory
+Type: npm install
+
+or
+
+run the "Install dependencies.bat" file

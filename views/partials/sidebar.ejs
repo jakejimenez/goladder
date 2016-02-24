@@ -1,0 +1,57 @@
+<%if(session == ''){ %>
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <div class="user-panel sidebar-header-top"><a href="/home"><img src="./images/Reddit_Ladder_League01.png" class="brand-logo"/></a></div>
+      <ul class="sidebar-menu">
+        <li style="font-size: 20px; color:white;" class="header sidebar-header">Menu</li>
+        <li><a href="/home"><span>Home</span></a></li>
+        <li><a href="/rules"><span>Rules</span></a></li>
+        <li><a href="/support"><span>Support</span></a></li>
+        <li><a href="/sponsor"><span>Sponsor</span></a></li>
+        <li><a href="/volunteer"><span>Volunteer</span></a></li>
+        <li style="font-size: 20px; color:white;" class="header sidebar-header">Teams</li>
+        <li><a href="/teamdb"><span>Team Database</span></a></li>
+        <li><a href="/findteam"><span>Find a Team</span></a></li>
+        <li style="font-size: 20px; color:white;" class="header sidebar-header">Matches</li>
+        <li><a href="/schedule"><span>Match Schedule</span></a></li>
+        <li style="font-size: 20px; color:white;" class="header sidebar-header">Account</li>
+        <li>
+          <div class="pull-left image"><a href="/login"><img src="./images/steam_login.png" class="login-button"/></a></div>
+        </li>
+      </ul>
+    </section>
+  </aside>
+<% }else{ %>
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <div class="user-panel"><a href="/home"><img src="./images/Reddit_Ladder_League01.png" class="brand-logo"/></a>
+        <div class="pull-left image user-picture"></div>
+        <div class="pull-left info"> 
+          <a href="myprofile" style="font-size: 20px"> <%= username %></a><br/><a href="myprofile"><i style="color: #00E676;" class="fa fa-circle text-success"></i> Online</a></div>
+      </div>
+      <ul class="sidebar-menu">
+        <li style="font-size: 20px; color:white;" class="header sidebar-header">Menu</li>
+        <li><a href="/home"><span>Home</span></a></li>
+        <li><a href="/rules"><span>Rules</span></a></li>
+        <li><a href="/support"><span>Support</span></a></li>
+        <li><a href="/sponsor"><span>Sponsor</span></a></li>
+        <li><a href="/volunteer"><span>Volunteer</span></a></li>
+        <li style="font-size: 20px; color:white;" class="header sidebar-header">Teams</li>
+        <li><a href="/teamdb"><span>Team Database</span></a></li>
+        <li><a href="/myteam"><span>My Team</span></a></li>
+        <li><a href="/findteam"><span>Find a Team</span></a></li>
+        <li style="font-size: 20px; color:white;" class="header sidebar-header">Matches</li>
+        <li><a href="/mymatches"><span>My Matches</span></a></li>
+        <li><a href="/requestmatch"><span>Request Match</span></a></li>
+        <li><a href="/schedule"><span>Match Schedule</span></a></li>
+        <li><a href="/submitmatchresult"><span>Submit Match Result</span></a></li>
+        <li><a href="/editupcomingmatch"><span>Edit Upcoming Match</span></a></li>
+        <li style="font-size: 20px; color:white;" class="header sidebar-header">Account</li>
+        <li><a href="/myprofile"><span>My Profile</span></a></li>
+        <li>
+          <div class="pull-left image"><a href="/logout"><img src="./images/steam_logout.png" class="login-button"/></a></div>
+        </li>
+      </ul>
+    </section>
+  </aside>  
+<% }%>
