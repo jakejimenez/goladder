@@ -10,6 +10,7 @@
       var session = <%-JSON.stringify(session)%>
       var picture = <%-JSON.stringify(picture)%>
       $(".user-picture").append('<img src="' + picture + '" href="/myprofile" class="img-circle"/>');
+      $(".profile-picture-left").append('<img src="' + picture + '" href="/myprofile" class="profile-picture"/>');
     });
   </script>
 <% }%>

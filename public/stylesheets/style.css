@@ -13,3 +13,125 @@
 	width: 200px;
 	margin: 13px;
 }
+
+.page-profile-header{
+	width: 100%;
+	height: 190px;
+	margin-top: 30px;
+	background-color: #222D32;
+}
+
+.profile-header-container{
+	padding: 25px;
+	display: inline-block;
+}
+
+.profile-picture{
+	height: 140px;
+	border-radius: 6px;
+	width: auto;
+}
+
+.profile-picture-left{
+	height: 140px;
+	width: auto;
+	float: left;
+	display: inline-block;
+}
+
+.profile-info{
+	float: left;
+	display: inline-block;
+	padding-left: 20px;
+}
+
+.page-profile-stats{
+	width: 69%;
+	float: left;
+	height: 500px;
+	margin-top: 30px;
+	background-color: #222D32;
+}
+
+.profile-stats-container{
+	padding: 20px;
+}
+
+.stats-header{
+	font-size: 30px;
+}
+
+.rank-picture{
+	height: 30px;
+	width: auto;
+}
+
+.page-profile-friends{
+	width: 28%;
+	float: right;
+	height: 500px;
+	margin-top: 30px;
+	background-color: #222D32;
+}
+
+.profile-friends-container{
+	padding: 20px;
+}
+
+.friends-header{
+	font-size: 30px;
+}
+
+.profile-text-info{
+
+}
+
+.friend-online{
+	padding: 8px;
+	padding-top: 5px;
+	width: 100%;
+	height: 65px;
+	background-color: #2C3B41;
+	border-radius: 6px;
+	margin-bottom: 15px;
+	margin-top: 5px;
+	border-bottom: 3px solid #00E676;
+}
+
+.friend-offline{
+	padding: 8px;
+	padding-top: 5px;
+	width: 100%;
+	height: 65px;
+	background-color: #2C3B41;
+	border-radius: 6px;
+	margin-bottom: 15px;
+	margin-top: 5px;
+	border-bottom: 3px solid #f75656;
+}
+
+.friend-pic{
+	padding-top: 4px;
+	width: 45px;
+	height: auto;
+	float:left;
+}
+
+.friend-online-status{
+	font-size: 14px;
+	padding-left: 10px;
+}
+
+.friend-offline-status{
+	font-size: 14px;
+	padding-left: 10px;
+}
+
+.friend-username{
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 20px;
+	padding-left: 10px;
+}

@@ -250,31 +250,39 @@ app.get("/home", function (req, res) {
 });
 
 app.get("/rules", function (req, res) {
-    renderDefault(req, res, 'rules', 'rules');
+    renderDefault(req, res, 'rules', 'Rules');
 });
 
 app.get("/support", function (req, res) {
-    renderDefault(req, res, 'support', 'support');
+    renderDefault(req, res, 'support', 'Support');
 });
 
 app.get("/sponsor", function (req, res) {
-    renderDefault(req, res, 'sponsor', 'sponsor');
+    renderDefault(req, res, 'sponsor', 'Sponsor');
 });
 
 app.get("/volunteer", function (req, res) {
-    renderDefault(req, res, 'volunteer', 'volunteer');
+    renderDefault(req, res, 'volunteer', 'Volunteer');
 });
 
 app.get("/teamdb", function (req, res) {
-    renderDefault(req, res, 'teamdb', 'teamdb');
+    renderDefault(req, res, 'teamdb', 'Team database');
 });
 
 app.get("/myteam", function (req, res) {
-    renderDefault(req, res, 'myteam', 'myteam');
+    renderDefault(req, res, 'myteam', 'My Team');
 });
 
 app.get("/findteam", function (req, res) {
-    renderDefault(req, res, 'findteam', 'findteam');
+    renderDefault(req, res, 'findteam', 'Find a Team');
+});
+
+app.get("/maketeam", function (req, res) {
+    renderDefault(req, res, 'maketeam', 'Make a Team');
+});
+
+app.get("/signupteam", function (req, res) {
+    renderDefault(req, res, 'signupteam', 'Sign up Team');
 });
 
 app.get("/mymatches", function (req, res) {
