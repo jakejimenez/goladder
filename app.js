@@ -32,7 +32,7 @@ var session = require('express-session')({
 // var connection = mysql.createConnection(mysqlInfo);
 
 // connection.connect(function(err){
-//     if (err){ 
+//     if (err){
 //         throw err;
 //     }
 //     else{
@@ -170,7 +170,7 @@ function getStatsForSteamId(steamid, callback) {
             callback(null, body);
         } else if (error) {
             getStatsForSteamId(steamid, callback);
-        }   
+        }
     });
 }
 
@@ -209,7 +209,7 @@ function renderStats(req, res, page, title){
                     username: name,
                     stats: stats,
                     picture: picture
-                }); 
+                });
             }, 150);
         });
     }else{
@@ -305,7 +305,7 @@ app.get("/editupcomingmatch", function (req, res) {
     renderDefault(req, res, 'editupcomingmatch', 'editupcomingmatch');
 });
 
-app.get("/myprofile", function (req, res) { 
+app.get("/myprofile", function (req, res) {
     renderStats(req, res, "myprofile", "My Profile");
 });
 
