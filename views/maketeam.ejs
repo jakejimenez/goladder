@@ -24,18 +24,22 @@
     <% include ./partials/sidebar %>
     <div class="content-wrapper">
       <section class="content-header">
-        <div class="inputs">
-          <div class="container-off">
-            <h1 style="font-size: 40px;"><b>MAKE YOUR OWN TEAM!</b></h1>
+        <div class="container">
+          <h1 style="font-size: 40px; margin-left:13%;"><b>MAKE YOUR OWN TEAM!</b></h1>
+          <h4 style=" margin-left:13%;"><i>Assemble a team to compete in the official reddit ladder league</i></h5>
+          <div class="form">
             <h3>Team Name:</h3>
             <h5><i>This will be your display name for everything. This is not changeable.</i></h5>
             <input type="text" class="input teamname"/><br>
             <h3>Team Picture Link:</h3>
             <h5><i>Upload your team picture to imgur and post the png link in here.</i></h5>
-            <input type="text" class="input teamname"/><br>
-            <h3>Region</h3>
+            <input type="text" class="input teampicture"/><br>
+            <h3>Contact Email:</h3>
+            <h5><i>We wont send spam email and will only contact you in important situations.</i></h5>
+            <input type="text" class="input teamemail"/><br>
+            <h3>Region:</h3>
             <h5><i>Select the region in which your team is located</i></h5>
-            <select class="form-control drop" name="region">
+            <select class="form-control drop " name="region">
               <option value="north-america">North America</option>
               <option value="europe">Europe</option>
               <option value="south-america">South America</option>
@@ -47,30 +51,34 @@
               <option value="central-america">Central America</option>
             </select>
           </div>
-          <div class="addplayers">
-            <div class="addplayer noselect" id="playertwo">
-              <a class="addplayerbutton">
-                <img src="./images/addicon.png" class="add">
-              </a>
-              <span class="space-left"> Add player</span>
-            </div>
-            <div class="addplayer noselect" id="playerthree">
-              <a class="addplayerbutton">
-                <img src="./images/addicon.png" class="add">
-              </a>
-              <span class="space-left"> Add player</span>
-            </div>
-            <div class="addplayer noselect" id="playerfour">
-              <a class="addplayerbutton">
-                <img src="./images/addicon.png" class="add">
-              </a>
-              <span class="space-left"> Add player</span>
-            </div>
-            <div class="addplayer noselect" id="playerfive">
-              <a class="addplayerbutton">
-                <img src="./images/addicon.png" class="add">
-              </a>
-              <span class="space-left"> Add player</span>
+          <div class="form">
+            <h3>Add Players to your team:</h3>
+            <h5><i>Select the region in which your team is located</i></h5>
+            <div class="addplayers">
+              <div class="addplayer noselect" id="playertwo">
+                <a class="addplayerbutton">
+                  <img src="./images/addicon.png" class="add">
+                </a>
+                <span class="space-left"> Add player</span>
+              </div>
+              <div class="addplayer noselect" id="playerthree">
+                <a class="addplayerbutton">
+                  <img src="./images/addicon.png" class="add">
+                </a>
+                <span class="space-left"> Add player</span>
+              </div>
+              <div class="addplayer noselect" id="playerfour">
+                <a class="addplayerbutton">
+                  <img src="./images/addicon.png" class="add">
+                </a>
+                <span class="space-left"> Add player</span>
+              </div>
+              <div class="addplayer noselect" id="playerfive">
+                <a class="addplayerbutton">
+                  <img src="./images/addicon.png" class="add">
+                </a>
+                <span class="space-left"> Add player</span>
+              </div>
             </div>
           </div>
         </div>

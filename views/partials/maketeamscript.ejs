@@ -3,7 +3,7 @@
     var session = <%- JSON.stringify(session) %>
     if(session == ''){
       $(function(){
-        console.log("For some reason, No session")
+        console.log("User attempting to reach page without login")
       });
     }else{
       var username = <%- JSON.stringify(username) %>
@@ -11,9 +11,12 @@
       var steamids = []
       var currentadd;
       steamids.push(session)
-      console.log(steamids)
+      if($('.addedplayer').length == 5){
+
+      }else{
+      }
       $('.addplayers').append(
-          '<div class="addedplayer noselect" id="playerone"><img src="' + picture + '" class="addpic"><span class="playername">' + username + '</span><a class="removeplayer"><img src="./images/removeicon.png" id="' + session + '" class="remove hvr-buzz"></a></div>'
+        '<div class="addedplayer noselect" id="playerone"><img src="' + picture + '" class="addpic"><span class="playername">' + username + '</span><a class="removeplayer"><img src="./images/removeicon.png" id="' + session + '" class="remove hvr-buzz"></a></div>'
       )
       $('.drop').change(function(){
         $('.drop').blur();
@@ -25,7 +28,6 @@
         $('.fade').modal('show');
         $('.results').empty();
         currentadd = $(this).attr('id');
-        console.log("Adding " + currentadd + " to the team")
       });
       $(".search").on("click",function(){
         name = $("#playername").val();
@@ -48,7 +50,6 @@
                   $(".results").append(
                     '<div class="modal-playercard" id="' + res[i].steamid + '"><img src="' + res[i].picture + '" class="modal-picture addpic-small"><span class="playername-small modal-playername">' + res[i].name + '</span><a class="btn addplayermodal">Add Player</a></div>'
                   ).slideDown(500)
-                  console.log("Results recieved");
                 }
                 $('.modal-playercard').on("click", function(){
                   if (steamids.indexOf($(this).attr('id')) > -1) {
@@ -68,7 +69,7 @@
                       $(this).remove();
                       $('.addplayers').append(
                         '<div class="addedplayer noselect" id="' + currentadd + '"><img src="' + addpic + '" class="addpic"><span class="playername">' + addname + '</span><a class="removeplayer"><img src="./images/removeicon.png" id="' + addsteamid + '" class="remove hvr-grow"></a></div>'
-                      ).show(1000)
+                      ).slideDown(500)
                       $('.remove').on("click",function(){
                         if(!($(this).attr('id') == session)){
                           var index = steamids.indexOf($(this).attr('id'));
@@ -79,19 +80,17 @@
                               var currentremove = $(this).attr("id")
                               $('.addplayers').append(
                                 '<div class="addplayer noselect" id="' + currentremove + '"><a class="addplayerbutton"><img src="./images/addicon.png" class="add"></a><span class="space-left"> Add player</span></div>'
-                              ).show(1000)
+                              ).slideDown(500)
                               $('.addplayer').on("click", function(){
                                 $('.fade').modal('show');
                                 $('.results').empty();
                                 currentadd = $(this).attr('id');
-                                console.log("Adding " + currentadd + " to the team")
                               });
                             });
                           }
                         }
                       })
                     });
-                    console.log(steamids)
                   }
                 });
               });

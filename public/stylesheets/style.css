@@ -145,23 +145,18 @@ margin: 20px;
 .space-right{
   padding-right: 10px;
 }
-.inputs{
-  display:inline-block;
-  margin-left: 33%;
+.form{
   float:left;
-  text-align: center;
+  display:inline-block;
+  margin: 20px;
 }
-
 .addplayers{
-  text-align: left;
-  margin:20px;
   display:inline-block;
   float:left;
   height: 440px;
   width: 430px;
   border-radius: 10px;
   background-color: #222D32;
-  margin-top: 20px;
   padding: 15px;
 }
 
@@ -209,16 +204,19 @@ margin: 20px;
    font-size: 19px;
    padding-left: 15px;
    border: none;
-   margin: auto;
    border-radius: 10px;
    color:black;
    outline: none;
 }
 
+.center-text{
+  text-align: center;
+
+}
+
 .drop:active,
 .drop:target,
 .drop:focus{
-  width: 230px;
   transition: 400ms all ease;
   background-size: 25px 25px;
   vertical-align: middle;

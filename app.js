@@ -235,7 +235,9 @@ app.post("/queryusername",function(req,res){
   connection.connect(function(err, con) {
     results = [];
     con.query('select * from users where lastusername like "%' + username + '%"', function(err,rows,fields){
-      console.log(rows)
+      console.log("Sending results to client")
+      con.release()
+      console.log("Disconnected from database")
       if(rows == ''){
         res.send({
           result: null
