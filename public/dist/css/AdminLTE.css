@@ -34,7 +34,6 @@ body {
   position: static;
   overflow: hidden;
 }
-/* --------------------CSS----------------- */
 
 .wrapper:before,
 .wrapper:after {

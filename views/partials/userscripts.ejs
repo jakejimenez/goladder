@@ -1,0 +1,36 @@
+$(function(){
+	var session = <%- JSON.stringify(session) %>
+	if(session == ''){
+		$(function(){
+			console.log("For some reason, No session")
+	    });
+	}else{
+			var picture = <%- JSON.stringify(picture) %>
+	    $(".user-picture").append('<img src="' + picture + '" href="/myprofile" class="img-circle"/>');
+	    $(".profile-picture-left").append('<img src="' + picture + '" href="/myprofile" class="profile-picture"/>');
+	    $.ajax({
+		    url: '/user/?' + 'steamid=' + session,
+		    type: 'POST',
+		    success: function(result) {
+		      console.log(result);
+		    }
+		});
+	}
+});
+
+//code to do put and delete ajax requests:
+// $.ajax({
+//     url: '/user/?steamid=' + steamid,
+//     type: 'PUT',
+//     success: function(result) {
+//     	console.log(result)
+//    	}
+// });
+
+// $.ajax({
+//     url: '/user/?steamid=' + steamid,
+//     type: 'DELETE',
+//     success: function(result) {
+//     	console.log(result)
+//    	}
+// });

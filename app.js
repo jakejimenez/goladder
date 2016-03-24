@@ -7,6 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');
+var userinfo = require('./userinfo.js')
 
 var session = require('express-session')({
     secret: "secret",
@@ -17,28 +18,6 @@ var session = require('express-session')({
         maxAge: 3600000
     }
 });
-
-// var mysql = require('mysql');
-
-// var mysqlInfo;
-
-// mysqlInfo = {
-//   host: '127.0.0.1',
-//   port: '3306',
-//   user: 'root',
-//   database: 'goladderdb'
-// };
-
-// var connection = mysql.createConnection(mysqlInfo);
-
-// connection.connect(function(err){
-//     if (err){
-//         throw err;
-//     }
-//     else{
-//        console.log('Connected to ' + mysqlInfo.database + ' in app');
-//     }
-// });
 
 var parseString = require('xml2js').parseString;
 
@@ -55,35 +34,25 @@ var picture = 'http://www.sessionlogs.com/media/icons/defaultIcon.png'
 var name = '';
 var loggedIn = false;
 
-// STAT VARS FOR PLAYER //
-var kills = 0;
-
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
 function normalizePort(val) {
     var port = parseInt(val, 10);
-
     if (isNaN(port)) {
-        // named pipe
         return val;
     }
     if (port >= 0) {
-        // port number
         return port;
     }
     return false;
 }
-
 function onError(error) {
     if (error.syscall !== 'listen') {
         throw error;
     }
-
     var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-
-    // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
             console.error(bind + ' requires elevated privileges');
@@ -103,14 +72,12 @@ function onListening() {
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     console.log('Listening on ' + bind);
 }
-
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -120,111 +87,54 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session);
 
+var connection = require('./connection.js');
+var routes = require('./routes.js');
+
+connection.init();
+routes.configure(app);
+
+
 function createRelyingParty(req) {
     var baseUrl = req.protocol + "://" + req.get("host");
     return new openid.RelyingParty(baseUrl + "/verify", baseUrl, true, false, []);
 }
-
-function getUserName(steamid, callback) {
-    getUserInfo(steamid, function(error, data){
-        if(error) throw error;
-        var datadec = JSON.parse(JSON.stringify(data.response));
-        name = datadec.players[0].personaname;
-        callback();
-    });
-}
-
-function getUserPicture(steamid, callback){
-    getUserInfo(steamid, function(error, data){
-        if(error) throw error;
-        var datadec = JSON.parse(JSON.stringify(data.response));
-        picture = datadec.players[0].avatarfull;
-        console.log(picture)
-        callback()
-    });
-}
-
-function getUserInfo(steamid,callback) {
-    var apik = 'B26B620482C987680D005B925374ED9E';
-    var url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=' + apik + '&steamids=' + steamid + '&format=json';
-    request({
-        url: url,
-        json: true
-    }, function(error, response, body){
-        if(!error && response.statusCode === 200){
-            callback(null, body);
-        } else if (error) {
-            getUserInfo(steamid,callback);
-        }
-    });
-}
-
-function getStatsForSteamId(steamid, callback) {
-    var apik = 'B26B620482C987680D005B925374ED9E';
-    var url = 'https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=' + apik + '&steamid=' + steamid;
-    request({
-        url: url,
-        json: true
-    }, function(error, response, body){
-        if (!error && response.statusCode === 200) {
-            callback(null, body);
-        } else if (error) {
-            getStatsForSteamId(steamid, callback);
-        }
-    });
-}
-
-function getImportantStats(steamid, callback){
-    getStatsForSteamId(steamid, function(error, data){
-        if(error) throw error;
-        var datadec = JSON.parse(JSON.stringify(data.playerstats));
-        stats = {
-            "kills": datadec.stats[0].value,
-            "deaths": datadec.stats[1].value,
-            "in-game-hours": (datadec.stats[2].value / 60) / 60,
-            "headshot-kills": datadec.stats[24].value,
-            "total-wins": datadec.stats[5].value,
-            "total-damage": datadec.stats[6].value
-        }
-        callback();
-    });
-}
-
-
 
 app.use(function (req, res, next) {
     res.locals.user = req.session.user;
     next();
 });
 
-function renderStats(req, res, page, title){
-    var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
-    if(loggedIn){
-        getImportantStats(session, function(){
-            setTimeout(function () {
-                console.log(stats)
-                res.render(page, {
-                    title: title,
-                    session: session,
-                    username: name,
-                    stats: stats,
-                    picture: picture
-                });
-            }, 150);
+function forCallback(rows, callback){
+  var done = 0;
+  for (var i = 0; i < rows.length; i++) {
+    var steamid = rows[i].steamid;
+    (function(steamid) {
+      userinfo.getUserName(steamid, function(name) {
+        userinfo.getUserPicture(steamid, function(picture){
+          results.push({
+            steamid: steamid,
+            name: name,
+            picture: picture
+          })
+          done++;
+          console.log("Queried " + done + " username(s)")
+          if(done == (rows.length)){
+            callback(results);
+          }
         });
-    }else{
-        res.render(page, {
-            title: title,
-            session: session
-        });
-    }
+      });
+    })(rows[i].steamid);
+  }
 }
+
 
 function renderDefault(req, res, page, title){
     var session = (typeof req.session.user !== 'undefined') ? req.session.user : '';
     if(loggedIn){
-        getUserName(session, function(){
-            getUserPicture(session, function(){
+        userinfo.getUserName(session, function(username){
+            name = username;
+            userinfo.getUserPicture(session, function(picture){
+                picture = picture;
                 res.render(page, {
                     title: title,
                     session: session,
@@ -309,6 +219,38 @@ app.get("/myprofile", function (req, res) {
     renderStats(req, res, "myprofile", "My Profile");
 });
 
+app.post("/maketeamfinal",function(req,res){
+  // var steamids = JSON.parse(req.body.steamids);
+  // console.log("STEAMIDS: " + steamids)
+  var steamids = JSON.parse(req.body.steamids);
+  var teamname = JSON.parse(req.body.teamname);
+  var picture = JSON.parse(req.body.teampicture);
+  res.send({
+    status: "Success"
+  })
+});
+
+app.post("/queryusername",function(req,res){
+  var username = JSON.parse(req.body.name)
+  connection.connect(function(err, con) {
+    results = [];
+    con.query('select * from users where lastusername like "%' + username + '%"', function(err,rows,fields){
+      console.log(rows)
+      if(rows == ''){
+        res.send({
+          result: null
+        })
+      }else{
+        forCallback(rows, function(results){
+          res.send({
+            result: JSON.stringify(results)
+          });
+        });
+      }
+    });
+  });
+});
+
 app.get("/login", function (req, res) {
     createRelyingParty(req).authenticate("http://steamcommunity.com/openid", false, function (e, authUrl) {
         if (e) {
@@ -376,3 +318,7 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
+
+module.exports = {
+    loggedIn : loggedIn
+}

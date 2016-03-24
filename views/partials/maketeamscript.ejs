@@ -1,0 +1,103 @@
+<script>
+  $(function(){
+    var session = <%- JSON.stringify(session) %>
+    if(session == ''){
+      $(function(){
+        console.log("For some reason, No session")
+      });
+    }else{
+      var username = <%- JSON.stringify(username) %>
+      var picture = <%- JSON.stringify(picture) %>
+      var steamids = []
+      var currentadd;
+      steamids.push(session)
+      console.log(steamids)
+      $('.addplayers').append(
+          '<div class="addedplayer noselect" id="playerone"><img src="' + picture + '" class="addpic"><span class="playername">' + username + '</span><a class="removeplayer"><img src="./images/removeicon.png" id="' + session + '" class="remove hvr-buzz"></a></div>'
+      )
+      $('.drop').change(function(){
+        $('.drop').blur();
+      });
+      $('.close-modal').on("click",function(){
+        $('.fade').modal('hide');
+      });
+      $('.addplayer').on("click", function(){
+        $('.fade').modal('show');
+        $('.results').empty();
+        currentadd = $(this).attr('id');
+        console.log("Adding " + currentadd + " to the team")
+      });
+      $(".search").on("click",function(){
+        name = $("#playername").val();
+        $('.results').slideUp(500, function() {
+            $(".results").empty();
+        });
+        $.post("queryusername", {name: JSON.stringify(name)}, function (results) {
+          if(results.result == null){
+            $('.results').slideUp(500, function() {
+              $('.results').empty()
+              $(".results").append(
+                '<div class="modal-playercard"><p class="playername-small">Cannot find requested player</p></div>'
+              ).slideDown(500)
+            });
+          }else{
+              var res = JSON.parse(results.result)
+              $('.results').slideUp(500, function() {
+                $('.results').empty()
+                for(i = 0; i < res.length; i++){
+                  $(".results").append(
+                    '<div class="modal-playercard" id="' + res[i].steamid + '"><img src="' + res[i].picture + '" class="modal-picture addpic-small"><span class="playername-small modal-playername">' + res[i].name + '</span><a class="btn addplayermodal">Add Player</a></div>'
+                  ).slideDown(500)
+                  console.log("Results recieved");
+                }
+                $('.modal-playercard').on("click", function(){
+                  if (steamids.indexOf($(this).attr('id')) > -1) {
+                    $('.results').slideUp(500, function() {
+                      $('.results').empty()
+                      $(".results").append(
+                        '<div class="modal-playercard"><p class="playername-small">Cannot add the same person twice</p></div>'
+                      ).slideDown(500)
+                    });
+                  } else {
+                    steamids.push($(this ).attr('id'))
+                    var addsteamid = $(this ).attr('id')
+                    var addpic = $(this).find('img').attr('src')
+                    var addname = $(this).find('span').text()
+                    $('.fade').modal('hide');
+                    $('#' + currentadd).slideUp(500, function(){
+                      $(this).remove();
+                      $('.addplayers').append(
+                        '<div class="addedplayer noselect" id="' + currentadd + '"><img src="' + addpic + '" class="addpic"><span class="playername">' + addname + '</span><a class="removeplayer"><img src="./images/removeicon.png" id="' + addsteamid + '" class="remove hvr-grow"></a></div>'
+                      ).show(1000)
+                      $('.remove').on("click",function(){
+                        if(!($(this).attr('id') == session)){
+                          var index = steamids.indexOf($(this).attr('id'));
+                          if(index > -1){
+                            steamids.splice(index, 1);
+                            $(this).parent().parent().slideUp(500, function(){
+                              $(this).remove();
+                              var currentremove = $(this).attr("id")
+                              $('.addplayers').append(
+                                '<div class="addplayer noselect" id="' + currentremove + '"><a class="addplayerbutton"><img src="./images/addicon.png" class="add"></a><span class="space-left"> Add player</span></div>'
+                              ).show(1000)
+                              $('.addplayer').on("click", function(){
+                                $('.fade').modal('show');
+                                $('.results').empty();
+                                currentadd = $(this).attr('id');
+                                console.log("Adding " + currentadd + " to the team")
+                              });
+                            });
+                          }
+                        }
+                      })
+                    });
+                    console.log(steamids)
+                  }
+                });
+              });
+            }
+        });
+      });
+    }
+  });
+</script>
