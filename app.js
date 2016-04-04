@@ -264,13 +264,11 @@ app.get("/login", function (req, res) {
 
 app.get("/verify", function (req, res) {
     createRelyingParty(req).verifyAssertion(req, function (e, result) {
-
         if (!result.authenticated) {
             return res.redirect("/home");
         }
         var IDENTIFIER_REGEX = /^https?:\/\/steamcommunity\.com\/openid\/id\/([0-9]+)$/;
         var matches = IDENTIFIER_REGEX.exec(result.claimedIdentifier);
-
         if (matches === null) {
             return res.redirect("/home");
         }

@@ -1,15 +1,22 @@
 var mysql = require('mysql');
+var fs = require('fs');
+var hostname;
+var password;
+var obj;
 
 function Connection() {
   this.pool = null;
-
   this.init = function() {
+    var obj = JSON.parse(fs.readFileSync('./cred.json', 'utf8'));
+    hostname = obj.hostname;
+    password = obj.password;
     this.pool = mysql.createPool({
-      connectionLimit: 10,
-      host: '127.0.0.1',
+      connectionLimit: 100,
+      host: hostname,
       port: '3306',
       user: 'root',
-      database: 'goladderdb'
+      password: password,
+      database: 'goladdersql'
     });
   };
 

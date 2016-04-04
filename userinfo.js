@@ -18,6 +18,7 @@ function getUserPicture(steamid, callback){
     });
 }
 
+
 function getImportantStats(steamid, callback){
     getStatsForSteamId(steamid, function(error, data){
         if(error) throw error;
@@ -33,7 +34,6 @@ function getImportantStats(steamid, callback){
         callback(stats);
     });
 }
-
 
 function getUserInfo(steamid,callback) {
     var apik = 'B26B620482C987680D005B925374ED9E';
